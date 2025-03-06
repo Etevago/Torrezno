@@ -1,13 +1,13 @@
 @if (results.length === 0){
 <div class="results-container">
   <div class="filter-section">
-    <input [(ngModel)]="rarbg" type="checkbox" class="btn-check" id="rarbg" autocomplete="off">
+    <input [(ngModel)]="rarbg" type="checkbox" class="btn-check" id="rarbg" autocomplete="off" (ngModelChange)="filterChanged()">
     <label class="btn btn-outline-primary" for="rarbg">RARBG</label>
 
-    <input [(ngModel)]="elamigos" type="checkbox" class="btn-check" id="elamigos" autocomplete="off">
+    <input [(ngModel)]="elamigos" type="checkbox" class="btn-check" id="elamigos" autocomplete="off" (ngModelChange)="filterChanged()">
     <label class="btn btn-outline-primary" for="elamigos">El Amigos</label>
 
-    <input [(ngModel)]="hacker" type="checkbox" class="btn-check" id="1337x" autocomplete="off">
+    <input [(ngModel)]="hacker" type="checkbox" class="btn-check" id="1337x" autocomplete="off" (ngModelChange)="filterChanged()">
     <label class="btn btn-outline-primary" for="1337x">1337x</label>
   </div>
 

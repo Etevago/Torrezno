@@ -1,0 +1,23 @@
+{
+  "/api/rarbg.to": {
+    "target": "https://rargb.to",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": { "^/api/rarbg.to": "" },
+    "logLevel": "debug"
+  },
+  "/api/elamigos-games.net": {
+    "target": "https://www.elamigos-games.net",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": { "^/api/elamigos-games.net": "" },
+    "logLevel": "debug"
+  },
+  "/api/1377x.to": {
+    "target": "https://www.1377x.to",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": { "^/api/1377x.to": "" },
+    "logLevel": "debug"
+  }
+}

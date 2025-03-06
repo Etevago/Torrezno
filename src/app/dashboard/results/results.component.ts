@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { TorrentService } from '../../shared/torrent.service';
 
 @Component({
   selector: 'app-results',
@@ -13,23 +14,22 @@ import {
   imports: [FormsModule, ReactiveFormsModule],
 })
 export class ResultsComponent implements OnInit {
+  private torrentService = inject(TorrentService);
+
   currentPage: number = 1;
   totalPages!: number;
   results: any[] = [];
 
-  rarbg!: boolean;
-  elamigos!: boolean;
-  hacker!: boolean;
+  rarbg = true;
+  elamigos = true;
+  hacker = true;
 
   constructor() {}
 
   ngOnInit() {}
 
-
-  filterResults() {
-    console.log(this.rarbg);
-    console.log(this.elamigos);
-    console.log(this.hacker);
+  filterChanged() {
+    this.torrentService.filters$.next([this.rarbg, this.elamigos, this.hacker]);
   }
 
   previousPage() {}
