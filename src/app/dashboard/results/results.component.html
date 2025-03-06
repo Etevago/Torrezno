@@ -1,3 +1,27 @@
-<p>
-  results works!
-</p>
+@if (results.length === 0){
+<div class="results-container">
+  <div class="filter-section">
+    <input [(ngModel)]="rarbg" type="checkbox" class="btn-check" id="rarbg" autocomplete="off">
+    <label class="btn btn-outline-primary" for="rarbg">RARBG</label>
+
+    <input [(ngModel)]="elamigos" type="checkbox" class="btn-check" id="elamigos" autocomplete="off">
+    <label class="btn btn-outline-primary" for="elamigos">El Amigos</label>
+
+    <input [(ngModel)]="hacker" type="checkbox" class="btn-check" id="1337x" autocomplete="off">
+    <label class="btn btn-outline-primary" for="1337x">1337x</label>
+  </div>
+
+  <div class="results-section">
+    @for (result of results;track result.id){
+    <h3>{{ result.title }}</h3>
+    <p>{{ result.description }}</p>
+    }
+  </div>
+
+  <div class="pagination-section">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages || !totalPages">Next</button>
+  </div>
+</div>
+}

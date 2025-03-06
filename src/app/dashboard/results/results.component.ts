@@ -1,15 +1,38 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-results',
   templateUrl: './results.component.html',
-  styleUrls: ['./results.component.css']
+  styleUrls: ['./results.component.css'],
+  imports: [FormsModule, ReactiveFormsModule],
 })
 export class ResultsComponent implements OnInit {
+  currentPage: number = 1;
+  totalPages!: number;
+  results: any[] = [];
 
-  constructor() { }
+  rarbg!: boolean;
+  elamigos!: boolean;
+  hacker!: boolean;
 
-  ngOnInit() {
+  constructor() {}
+
+  ngOnInit() {}
+
+
+  filterResults() {
+    console.log(this.rarbg);
+    console.log(this.elamigos);
+    console.log(this.hacker);
   }
 
+  previousPage() {}
+
+  nextPage() {}
 }
