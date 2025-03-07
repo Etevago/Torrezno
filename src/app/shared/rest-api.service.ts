@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, of } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,32 +10,38 @@ export class RestApiService {
 
   constructor() {}
 
-  getRARBGTorrents(search: string) {
+  getRARBGTorrents(search: string): Observable<any> {
     const params = { search };
-    return this.httpClient.get(`/api/rarbg.to/search/`, { params }).pipe(
-      catchError((error) => {
-        console.error('RARBG API Error:', error);
-        return of(null);
-      })
-    );
+    return this.httpClient
+      .get(`/api/rarbg.to/search/`, { params, responseType: 'text' })
+      .pipe(
+        catchError((error) => {
+          console.error('RARBG API Error:', error);
+          return of(null);
+        })
+      );
   }
 
-  getElAmigosTorrents(search: string) {
+  getElAmigosTorrents(search: string): Observable<any> {
     const params = { q: search };
-    return this.httpClient.get('/api/elamigos-games.net', { params }).pipe(
-      catchError((error) => {
-        console.error('ElAmigos API Error:', error);
-        return of(null);
-      })
-    );
+    return this.httpClient
+      .get('/api/elamigos-games.net', { params, responseType: 'text' })
+      .pipe(
+        catchError((error) => {
+          console.error('ElAmigos API Error:', error);
+          return of(null);
+        })
+      );
   }
 
-  getHackerTorrents(search: string) {
-    return this.httpClient.get(`/api/1377x.to/search/${search}/1`).pipe(
-      catchError((error) => {
-        console.error('1377x API Error:', error);
-        return of(null);
-      })
-    );
+  getHackerTorrents(search: string): Observable<any> {
+    return this.httpClient
+      .get(`/api/1377x.to/search/${search}/1`, { responseType: 'text' })
+      .pipe(
+        catchError((error) => {
+          console.error('1377x API Error:', error);
+          return of(null);
+        })
+      );
   }
 }

@@ -1,24 +1,27 @@
 import { Component, inject, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { Result } from '../../shared/shared.model';
 import { TorrentService } from '../../shared/torrent.service';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-results',
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.css'],
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+  ],
 })
 export class ResultsComponent implements OnInit {
-  private torrentService = inject(TorrentService);
+  protected torrentService = inject(TorrentService);
 
-  currentPage: number = 1;
-  totalPages!: number;
-  results: any[] = [];
+  results: Result[] = [];
+  tableData!: MatTableDataSource<Result, MatPaginator>;
+  displayedColumns: string[] = ['name', 'magnet', 'link', 'source']; // 'size', 'seeders', 'leechers', 'source'];
 
   rarbg = true;
   elamigos = true;
@@ -26,7 +29,12 @@ export class ResultsComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.torrentService.results$.subscribe((results) => {
+      this.results = results;
+      this.tableData = new MatTableDataSource(results);
+    });
+  }
 
   filterChanged() {
     this.torrentService.filters$.next([this.rarbg, this.elamigos, this.hacker]);

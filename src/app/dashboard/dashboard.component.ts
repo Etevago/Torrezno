@@ -9,7 +9,10 @@ import { SearchComponent } from './search/search.component';
   imports: [SearchComponent, ResultsComponent],
 })
 export class DashboardComponent implements OnInit {
+
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+
+  }
 }
