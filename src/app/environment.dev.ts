@@ -1,5 +1,8 @@
 export const environment = {
-  rarbg: '/api/rarbg.to/',
-  elamigos: '/api/elamigos-games.net/',
-  hacker: '/api/1377x.to/',
+  rarbgApi: '/api/rarbg.to/',
+  elamigosApi: '/api/elamigos-games.net/',
+  hackerApi: '/api/1377x.to/',
+  rarbgUrl: 'https://rargb.to',
+  elamigosUrl: 'https://elamigos-games.net',
+  hackerUrl: 'https://1377x.to',
 };
