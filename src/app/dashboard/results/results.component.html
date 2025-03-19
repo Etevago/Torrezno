@@ -6,18 +6,20 @@
 
     <input [(ngModel)]="filters['elamigos']" type="checkbox" class="btn-check" id="elamigos" autocomplete="off"
       (ngModelChange)="filterChanged()">
-    <label class="btn btn-outline-primary" for="elamigos">El Amigos</label>
+    <label class="btn btn-outline-primary" for="elamigos">ElAmigos</label>
 
     <input [(ngModel)]="filters['1337x']" type="checkbox" class="btn-check" id="1337x" autocomplete="off"
       (ngModelChange)="filterChanged()">
     <label class="btn btn-outline-primary" for="1337x">1337x</label>
   </div>
 
-  <table mat-table [dataSource]="dataSource" matSort matSortDirection="desc" (matSortChange)="sortChanged($event)"  class="mat-elevation-z8 demo-table">
+
+  <table mat-table [dataSource]="dataSource" matSort matSortStart="desc" matSortDirection="desc"
+    (matSortChange)="sortChanged($event)" class="mat-elevation-z8 demo-table">
     <ng-container matColumnDef="img">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
-        <img class="img" [src]="element.img" alt="{{element.name}}">
+        <img class="img" [src]="element.img">
       </td>
     </ng-container>
 
@@ -55,7 +57,7 @@
 
     <ng-container matColumnDef="source">
       <th mat-header-cell *matHeaderCellDef>Source</th>
-      <td mat-cell *matCellDef="let element">{{element.source}}</td>
+      <td mat-cell *matCellDef="let element"><b>{{element.source}}</b></td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -63,7 +65,8 @@
 
   </table>
 
-  <mat-paginator [length]="results.length" [pageSizeOptions]="[25, 50, 100]" pageSize="25" aria-label="Select page">
+  <mat-paginator [length]="dataSource.data.length" [pageSizeOptions]="[25, 50, 100]" pageSize="25"
+    aria-label="Select page">
   </mat-paginator>
 
 </div>

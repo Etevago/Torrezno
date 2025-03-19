@@ -57,6 +57,7 @@ export class ResultsComponent implements OnInit, AfterViewInit {
       this.results = results;
       this.dataSource.data = results;
       this.sort = new MatSort();
+      this.filterChanged()
     });
     this.torrentService.search$.subscribe((search) => {
       this.search = search.search;
@@ -66,8 +67,6 @@ export class ResultsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    this.sort.disableClear = true;
-    this.sort.start = 'desc';
   }
 
   sortChanged(event: SortEvent) {

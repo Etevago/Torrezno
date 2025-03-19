@@ -1,5 +1,6 @@
 import { environment } from '../environment.dev';
 import { Result } from './shared.model';
+import { formatDate, transformHackerImageToRARBGImage } from './utils/utils';
 const parser = new DOMParser();
 
 export const scrapeElAmigos = (html: string | null): Result[] => {
@@ -12,13 +13,15 @@ export const scrapeElAmigos = (html: string | null): Result[] => {
     const categories = doc.querySelectorAll('.row div .card .card-body small');
     const images = doc.querySelectorAll('.row div .card a img');
     elements.forEach((element, index) => {
-      if (categories[index].textContent !== '[Offer]') {
+      if (
+        categories[index].textContent !== '[Offer]' &&
+        categories[index].textContent !== '[Pre-Order]'
+      ) {
         results.push({
           name: element.innerHTML,
           link: element.attributes[0].value,
           source: 'ElAmigos',
           img: environment.elamigosApi + images[index].attributes[1].value,
-          category: 'Games',
         });
       }
     });
@@ -41,21 +44,38 @@ export const scrapeRARBG = (html: string | null): Result[] => {
         img:
           environment.rarbgApi +
           element.children[0].children[0].children[0].attributes[0].value,
-        added: element.children[3].textContent!,
+        added: new Date(element.children[3].textContent!).toLocaleDateString(
+          'es-ES'
+        ),
         size: element.children[4].textContent!,
         seeders: +element.children[5].textContent!,
         leechers: +element.children[6].textContent!,
       });
     });
   }
-  console.log(results);
   return results;
 };
 
 export const scrapeHacker = (html: string | null): Result[] => {
   const results: Result[] = [];
-  // const elements = html.getElementsByClassName('.row')
-  // console.log(elements);
+  if (html) {
+    const doc = parser.parseFromString(html, 'text/html');
+    const elements = doc.querySelectorAll('tbody tr');
+    elements.forEach((element) => {
+      results.push({
+        name: element.children[0].children[1].innerHTML,
+        link:
+          environment.hackerUrl +
+          element.children[0].children[1].attributes[0].value,
+        seeders: +element.children[1].textContent!,
+        leechers: +element.children[2].textContent!,
+        source: '1337x',
+        img: transformHackerImageToRARBGImage(element),
+        added: formatDate(element.children[3].textContent!),
+        size: element.children[4].textContent!,
+      });
+    });
+  }
   return results;
 };
 

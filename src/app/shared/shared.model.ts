@@ -9,7 +9,7 @@ export interface Result {
   leechers?: number;
   link?: string;
   source: string;
-  category?: string;
+  // category?: string;
   img?: string;
 }
 
