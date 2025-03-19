@@ -5,11 +5,14 @@ import { SearchComponent } from './search/search.component';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
+  styleUrls: ['./dashboard.component.scss'],
   imports: [SearchComponent, ResultsComponent],
 })
 export class DashboardComponent implements OnInit {
+
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+
+  }
 }

@@ -1,27 +1,72 @@
-@if (results.length === 0){
 <div class="results-container">
   <div class="filter-section">
-    <input [(ngModel)]="rarbg" type="checkbox" class="btn-check" id="rarbg" autocomplete="off" (ngModelChange)="filterChanged()">
+    <input [(ngModel)]="filters['rarbg']" type="checkbox" class="btn-check" id="rarbg" autocomplete="off"
+      (ngModelChange)="filterChanged()">
     <label class="btn btn-outline-primary" for="rarbg">RARBG</label>
 
-    <input [(ngModel)]="elamigos" type="checkbox" class="btn-check" id="elamigos" autocomplete="off" (ngModelChange)="filterChanged()">
-    <label class="btn btn-outline-primary" for="elamigos">El Amigos</label>
+    <input [(ngModel)]="filters['elamigos']" type="checkbox" class="btn-check" id="elamigos" autocomplete="off"
+      (ngModelChange)="filterChanged()">
+    <label class="btn btn-outline-primary" for="elamigos">ElAmigos</label>
 
-    <input [(ngModel)]="hacker" type="checkbox" class="btn-check" id="1337x" autocomplete="off" (ngModelChange)="filterChanged()">
+    <input [(ngModel)]="filters['1337x']" type="checkbox" class="btn-check" id="1337x" autocomplete="off"
+      (ngModelChange)="filterChanged()">
     <label class="btn btn-outline-primary" for="1337x">1337x</label>
   </div>
 
-  <div class="results-section">
-    @for (result of results;track result.id){
-    <h3>{{ result.title }}</h3>
-    <p>{{ result.description }}</p>
-    }
-  </div>
 
-  <div class="pagination-section">
-    <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
-    <span>Page {{ currentPage }} of {{ totalPages }}</span>
-    <button (click)="nextPage()" [disabled]="currentPage === totalPages || !totalPages">Next</button>
-  </div>
+  <table mat-table [dataSource]="dataSource" matSort matSortStart="desc" matSortDirection="desc"
+    (matSortChange)="sortChanged($event)" class="mat-elevation-z8 demo-table">
+    <ng-container matColumnDef="img">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <img class="img" [src]="element.img">
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element">
+        <a target="_blank" href={{element.link}}>{{element.name}}</a>
+      </td>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="category">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Category</th>
+      <td mat-cell *matCellDef="let element">{{element.category}}</td>
+    </ng-container> -->
+
+    <ng-container matColumnDef="added">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Added</th>
+      <td mat-cell *matCellDef="let element">{{element.added}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="size">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Size</th>
+      <td mat-cell *matCellDef="let element">{{element.size}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="seeders">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>S.</th>
+      <td mat-cell *matCellDef="let element">{{element.seeders}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="leechers">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>L.</th>
+      <td mat-cell *matCellDef="let element">{{element.leechers}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="source">
+      <th mat-header-cell *matHeaderCellDef>Source</th>
+      <td mat-cell *matCellDef="let element"><b>{{element.source}}</b></td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+
+  <mat-paginator [length]="dataSource.data.length" [pageSizeOptions]="[25, 50, 100]" pageSize="25"
+    aria-label="Select page">
+  </mat-paginator>
+
 </div>
-}
