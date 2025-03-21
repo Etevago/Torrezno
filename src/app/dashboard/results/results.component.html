@@ -1,20 +1,20 @@
 <div class="results-container">
   <div class="filter-section">
-    <input [(ngModel)]="filters['rarbg']" type="checkbox" class="btn-check" id="rarbg" autocomplete="off"
-      (ngModelChange)="filterChanged()">
+    <input #rarbg [checked]="service.filters()['rarbg']" type="checkbox" class="btn-check" id="rarbg" autocomplete="off"
+      (change)="service.filters$.next({rarbg: rarbg.checked})">
     <label class="btn btn-outline-primary" for="rarbg">RARBG</label>
 
-    <input [(ngModel)]="filters['elamigos']" type="checkbox" class="btn-check" id="elamigos" autocomplete="off"
-      (ngModelChange)="filterChanged()">
+    <input #elamigos [checked]="service.filters()['elamigos']" type="checkbox" class="btn-check" id="elamigos" autocomplete="off"
+      (change)="service.filters$.next({elamigos: elamigos.checked})">
     <label class="btn btn-outline-primary" for="elamigos">ElAmigos</label>
 
-    <input [(ngModel)]="filters['1337x']" type="checkbox" class="btn-check" id="1337x" autocomplete="off"
-      (ngModelChange)="filterChanged()">
+    <input #hacker [checked]="service.filters()['1337x']" type="checkbox" class="btn-check" id="1337x" autocomplete="off"
+      (change)="service.filters$.next({'1337x': hacker.checked})">
     <label class="btn btn-outline-primary" for="1337x">1337x</label>
   </div>
 
 
-  <table mat-table [dataSource]="dataSource" matSort matSortStart="desc" matSortDirection="desc"
+  <table mat-table [dataSource]="results" matSort matSortStart="desc" matSortDirection="desc"
     (matSortChange)="sortChanged($event)" class="mat-elevation-z8 demo-table">
     <ng-container matColumnDef="img">
       <th mat-header-cell *matHeaderCellDef></th>
@@ -65,7 +65,7 @@
 
   </table>
 
-  <mat-paginator [length]="dataSource.data.length" [pageSizeOptions]="[25, 50, 100]" pageSize="25"
+  <mat-paginator [length]="results.length" [pageSizeOptions]="[25, 50, 100]" pageSize="25"
     aria-label="Select page">
   </mat-paginator>
 

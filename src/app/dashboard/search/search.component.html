@@ -1,3 +1,4 @@
 <div class="search-container">
-  <input [(ngModel)]="searchInput" type="text" placeholder="Search..." class="search-input" (keyup.enter)="onSearch()" />
+  <input #searchInput type="text" placeholder="Search..." class="search-input"
+    (keyup.enter)="service.search$.next({search:searchInput.value})" />
 </div>

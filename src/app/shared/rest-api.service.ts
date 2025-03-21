@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { catchError, map, Observable, of } from 'rxjs';
 import { environment } from '../environment.dev';
 import { scrapeElAmigos, scrapeHacker, scrapeRARBG } from './torrent-scraper';
-import { ApiRequest, Result } from './shared.model';
+import { SearchRequest, Result } from './shared.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class RestApiService {
 
   constructor() {}
 
-  getRARBGTorrents(request: ApiRequest): Observable<Result[]> {
+  getRARBGTorrents(request: SearchRequest): Observable<Result[]> {
     const { search, active: order, direction: by } = request;
     let params: any = { search };
     if (order && by) {
@@ -35,7 +35,7 @@ export class RestApiService {
       );
   }
 
-  getHackerTorrents(request: ApiRequest): Observable<Result[]> {
+  getHackerTorrents(request: SearchRequest): Observable<Result[]> {
     const { search, active, direction } = request;
     let searchQuery = direction
       ? `sort-search/${search}/${active}/${direction}`

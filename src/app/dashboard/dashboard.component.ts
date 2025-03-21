@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { TorrentService } from '../shared/torrent.service';
 import { ResultsComponent } from './results/results.component';
 import { SearchComponent } from './search/search.component';
 
@@ -9,10 +10,7 @@ import { SearchComponent } from './search/search.component';
   imports: [SearchComponent, ResultsComponent],
 })
 export class DashboardComponent implements OnInit {
+  protected service = inject(TorrentService);
 
-  constructor() {}
-
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 }

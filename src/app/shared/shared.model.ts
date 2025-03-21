@@ -18,6 +18,12 @@ export interface SortEvent {
   direction?: SortDirection;
 }
 
-export interface ApiRequest extends SortEvent {
-  search: string;
+export interface SearchRequest extends SortEvent {
+  search?: string;
+}
+
+export interface AppState {
+  results: Result[];
+  search: SearchRequest | null;
+  filters: Record<string, boolean>;
 }
