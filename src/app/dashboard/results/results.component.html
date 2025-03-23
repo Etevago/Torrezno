@@ -1,72 +1,44 @@
+@if (results.length > 0){
 <div class="results-container">
-  <div class="filter-section">
-    <input #rarbg [checked]="service.filters()['rarbg']" type="checkbox" class="btn-check" id="rarbg" autocomplete="off"
-      (change)="service.filters$.next({rarbg: rarbg.checked})">
+  <form [formGroup]="service.filters" class="filter-section">
+    <input formControlName="rarbg" type="checkbox" class="btn-check" id="rarbg" autocomplete="off" [checked]="true">
     <label class="btn btn-outline-primary" for="rarbg">RARBG</label>
 
-    <input #elamigos [checked]="service.filters()['elamigos']" type="checkbox" class="btn-check" id="elamigos" autocomplete="off"
-      (change)="service.filters$.next({elamigos: elamigos.checked})">
+    <input formControlName="elamigos" type="checkbox" class="btn-check" id="elamigos" autocomplete="off"
+      [checked]="true">
     <label class="btn btn-outline-primary" for="elamigos">ElAmigos</label>
 
-    <input #hacker [checked]="service.filters()['1337x']" type="checkbox" class="btn-check" id="1337x" autocomplete="off"
-      (change)="service.filters$.next({'1337x': hacker.checked})">
+    <input formControlName="1337x" type="checkbox" class="btn-check" id="1337x" autocomplete="off" [checked]="true">
     <label class="btn btn-outline-primary" for="1337x">1337x</label>
-  </div>
+  </form>
 
-
-  <table mat-table [dataSource]="results" matSort matSortStart="desc" matSortDirection="desc"
-    (matSortChange)="sortChanged($event)" class="mat-elevation-z8 demo-table">
-    <ng-container matColumnDef="img">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element">
-        <img class="img" [src]="element.img">
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let element">
-        <a target="_blank" href={{element.link}}>{{element.name}}</a>
-      </td>
-    </ng-container>
-
-    <!-- <ng-container matColumnDef="category">
-      <th mat-header-cell mat-sort-header *matHeaderCellDef>Category</th>
-      <td mat-cell *matCellDef="let element">{{element.category}}</td>
-    </ng-container> -->
-
-    <ng-container matColumnDef="added">
-      <th mat-header-cell mat-sort-header *matHeaderCellDef>Added</th>
-      <td mat-cell *matCellDef="let element">{{element.added}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="size">
-      <th mat-header-cell mat-sort-header *matHeaderCellDef>Size</th>
-      <td mat-cell *matCellDef="let element">{{element.size}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="seeders">
-      <th mat-header-cell mat-sort-header *matHeaderCellDef>S.</th>
-      <td mat-cell *matCellDef="let element">{{element.seeders}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="leechers">
-      <th mat-header-cell mat-sort-header *matHeaderCellDef>L.</th>
-      <td mat-cell *matCellDef="let element">{{element.leechers}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="source">
-      <th mat-header-cell *matHeaderCellDef>Source</th>
-      <td mat-cell *matCellDef="let element"><b>{{element.source}}</b></td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-  </table>
-
-  <mat-paginator [length]="results.length" [pageSizeOptions]="[25, 50, 100]" pageSize="25"
-    aria-label="Select page">
-  </mat-paginator>
-
+  <p-table [value]="results" [paginator]="true" [rows]="25" [rowsPerPageOptions]="[25, 50, 100]">
+    <ng-template #header>
+      <tr>
+        <th style="width:5%"></th>
+        <th style="width:55%">Name</th>
+        <th style="width:10%">Added</th>
+        <th style="width:10%">Size</th>
+        <th style="width:5%">S.</th>
+        <th style="width:5%">L.</th>
+        <th style="width:10%">Source</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-element>
+      <tr>
+        <td>
+          <img class="img" [src]="element.img">
+        </td>
+        <td>
+          <a target="_blank" href={{element.link}}>{{element.name}}</a>
+        </td>
+        <td>{{ element.added }}</td>
+        <td>{{ element.size }}</td>
+        <td>{{ element.seeders }}</td>
+        <td>{{ element.leechers }}</td>
+        <td>{{ element.source }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>
+}
