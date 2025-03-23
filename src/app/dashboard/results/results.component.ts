@@ -1,7 +1,7 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
-import { Result, SortEvent } from '../../shared/shared.model';
+import { SortEvent } from '../../shared/shared.model';
 import { TorrentService } from '../../shared/torrent.service';
 @Component({
   selector: 'app-results',
@@ -10,8 +10,6 @@ import { TorrentService } from '../../shared/torrent.service';
   imports: [TableModule, FormsModule,ReactiveFormsModule],
 })
 export class ResultsComponent {
-  @Input({ required: true }) results!: Result[];
-
   protected service = inject(TorrentService);
 
   displayedColumns: string[] = [

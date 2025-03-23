@@ -4,11 +4,9 @@ import {
   inject,
   Injectable,
   linkedSignal,
-  Signal,
-  signal,
+  signal
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { forkJoin, Observable, Subject } from 'rxjs';
 import { RestApiService } from './rest-api.service';
 import { AppState, Result, SearchRequest } from './shared.model';
@@ -19,15 +17,12 @@ import { AppState, Result, SearchRequest } from './shared.model';
 export class TorrentService {
   private apiService = inject(RestApiService);
   private destroyRef = inject(DestroyRef);
-  private fb = inject(FormBuilder);
 
   private state = signal<AppState>({
     results: [],
     search: null,
+    filters: { rarbg: true, elamigos: true, '1337x': true },
   });
-
-  filters!: FormGroup;
-  filtersControl$: Observable<any>;
 
   // Sources
   search$ = new Subject<SearchRequest>();
@@ -35,25 +30,15 @@ export class TorrentService {
   // Selectors
   results = computed(() => this.state().results);
   search = computed(() => this.state().search);
-  filteredResults = computed(() => this.filterResponses(this.results()));
+  filters = computed(() => this.state().filters);
+  filteredResults = linkedSignal(() =>
+    this.results().filter((result) =>
+      this.filterResponses(result, this.filters())
+    )
+  );
 
   // Reducers
   constructor() {
-    this.filters = this.fb.group({
-      rarbg: true,
-      elamigos: true,
-      '1337x': true,
-    });
-    this.filtersControl$ = this.filters.valueChanges;
-
-    // Filters reducer
-    this.filtersControl$.pipe(takeUntilDestroyed()).subscribe((filters) => {
-      this.filters.setValue(filters, { emitEvent: false });
-
-      console.log(this.filters);
-      console.log(this.filteredResults());
-    });
-
     // Search and results reducer
     this.search$.pipe(takeUntilDestroyed()).subscribe((search) => {
       this.state.update((state) => ({
@@ -75,21 +60,29 @@ export class TorrentService {
         .subscribe((responses) => {
           this.state.update((state) => ({
             ...state,
-            results: responses.flatMap((result) =>
-              this.filterResponses(result)
-            ),
+            results: responses.flat(),
           }));
         });
     });
   }
 
-  filterResponses(results: Result[]): Result[] {
-    console.log('a');
-    const filter = Object.keys(this.filters.getRawValue()!)
-      .filter((key) => this.filters.getRawValue()![key])
-      .join('');
-    return results.filter((result) =>
-      filter.includes(result.source.toLowerCase())
-    );
+  // Filter reducer
+  filterChanged(value: boolean, target: string) {
+    this.state.update((state) => ({
+      ...state,
+      filters: {
+        ...state.filters,
+        [target]: value,
+      },
+    }));
   }
+
+  filterResponses(result: Result, filters: Record<string, boolean>): boolean {
+    const filter = Object.keys(filters!)
+      .filter((key) => filters![key])
+      .join('');
+    return filter.includes(result.source.toLowerCase());
+  }
+
+
 }

@@ -1,18 +1,23 @@
-@if (results.length > 0){
+@if (service.results().length > 0){
 <div class="results-container">
-  <form [formGroup]="service.filters" class="filter-section">
-    <input formControlName="rarbg" type="checkbox" class="btn-check" id="rarbg" autocomplete="off" [checked]="true">
+  <form class="filter-section">
+    <input #rarbg [(ngModel)]="service.filters()['rarbg']"
+      (ngModelChange)="service.filterChanged($event, 'rarbg')" name="rarbg" type="checkbox" class="btn-check"
+      id="rarbg" autocomplete="off" [checked]="true">
     <label class="btn btn-outline-primary" for="rarbg">RARBG</label>
 
-    <input formControlName="elamigos" type="checkbox" class="btn-check" id="elamigos" autocomplete="off"
-      [checked]="true">
+    <input #elamigos [(ngModel)]="service.filters()['elamigos']"
+      (ngModelChange)="service.filterChanged($event, 'elamigos')" name="elamigos" type="checkbox" class="btn-check"
+      id="elamigos" autocomplete="off" [checked]="true">
     <label class="btn btn-outline-primary" for="elamigos">ElAmigos</label>
 
-    <input formControlName="1337x" type="checkbox" class="btn-check" id="1337x" autocomplete="off" [checked]="true">
+    <input #hacker [(ngModel)]="service.filters()['1337x']"
+      (ngModelChange)="service.filterChanged($event, 'hacker')" name="1337x" type="checkbox" class="btn-check"
+      id="1337x" autocomplete="off" [checked]="true">
     <label class="btn btn-outline-primary" for="1337x">1337x</label>
   </form>
 
-  <p-table [value]="results" [paginator]="true" [rows]="25" [rowsPerPageOptions]="[25, 50, 100]">
+  <p-table [value]="service.filteredResults()" [paginator]="true" [rows]="25" [rowsPerPageOptions]="[25, 50, 100]">
     <ng-template #header>
       <tr>
         <th style="width:5%"></th>

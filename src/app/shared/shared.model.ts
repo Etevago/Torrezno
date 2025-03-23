@@ -23,4 +23,5 @@ export interface SearchRequest extends SortEvent {
 export interface AppState {
   results: Result[];
   search: SearchRequest | null;
+  filters: Record<string, boolean>;
 }
