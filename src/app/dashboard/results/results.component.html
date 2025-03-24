@@ -1,72 +1,55 @@
+@if (service.results().length > 0){
 <div class="results-container">
-  <div class="filter-section">
-    <input [(ngModel)]="filters['rarbg']" type="checkbox" class="btn-check" id="rarbg" autocomplete="off"
-      (ngModelChange)="filterChanged()">
+  <form class="filter-section">
+    <input #rarbg [ngModel]="filters" (ngModelChange)="service.filterChanged($event, 'rarbg')" name="rarbg"
+      type="checkbox" class="btn-check" id="rarbg" autocomplete="off">
     <label class="btn btn-outline-primary" for="rarbg">RARBG</label>
 
-    <input [(ngModel)]="filters['elamigos']" type="checkbox" class="btn-check" id="elamigos" autocomplete="off"
-      (ngModelChange)="filterChanged()">
+    <input #elamigos [ngModel]="filters" (ngModelChange)="service.filterChanged($event, 'elamigos')" name="elamigos"
+      type="checkbox" class="btn-check" id="elamigos" autocomplete="off">
     <label class="btn btn-outline-primary" for="elamigos">ElAmigos</label>
 
-    <input [(ngModel)]="filters['1337x']" type="checkbox" class="btn-check" id="1337x" autocomplete="off"
-      (ngModelChange)="filterChanged()">
+    <input #hacker [ngModel]="filters" (ngModelChange)="service.filterChanged($event, '1337x')" name="1337x"
+      type="checkbox" class="btn-check" id="1337x" autocomplete="off">
     <label class="btn btn-outline-primary" for="1337x">1337x</label>
-  </div>
+  </form>
 
-
-  <table mat-table [dataSource]="dataSource" matSort matSortStart="desc" matSortDirection="desc"
-    (matSortChange)="sortChanged($event)" class="mat-elevation-z8 demo-table">
-    <ng-container matColumnDef="img">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element">
-        <img class="img" [src]="element.img">
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let element">
-        <a target="_blank" href={{element.link}}>{{element.name}}</a>
-      </td>
-    </ng-container>
-
-    <!-- <ng-container matColumnDef="category">
-      <th mat-header-cell mat-sort-header *matHeaderCellDef>Category</th>
-      <td mat-cell *matCellDef="let element">{{element.category}}</td>
-    </ng-container> -->
-
-    <ng-container matColumnDef="added">
-      <th mat-header-cell mat-sort-header *matHeaderCellDef>Added</th>
-      <td mat-cell *matCellDef="let element">{{element.added}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="size">
-      <th mat-header-cell mat-sort-header *matHeaderCellDef>Size</th>
-      <td mat-cell *matCellDef="let element">{{element.size}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="seeders">
-      <th mat-header-cell mat-sort-header *matHeaderCellDef>S.</th>
-      <td mat-cell *matCellDef="let element">{{element.seeders}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="leechers">
-      <th mat-header-cell mat-sort-header *matHeaderCellDef>L.</th>
-      <td mat-cell *matCellDef="let element">{{element.leechers}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="source">
-      <th mat-header-cell *matHeaderCellDef>Source</th>
-      <td mat-cell *matCellDef="let element"><b>{{element.source}}</b></td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-  </table>
-
-  <mat-paginator [length]="dataSource.data.length" [pageSizeOptions]="[25, 50, 100]" pageSize="25"
-    aria-label="Select page">
-  </mat-paginator>
-
+  <p-table [value]="service.filteredResults()" [defaultSortOrder]="-1" [customSort]="true" [lazy]="true"
+    (onSort)="sortChanged($event)" [paginator]="true" [rows]="25" [rowsPerPageOptions]="[25, 50, 100]">
+    <ng-template #header>
+      <tr>
+        <th pSortableColumn style="width:5%"></th>
+        <th style="width:55%">Name</th>
+        <th pSortableColumn="time" style="width:10%">Added
+          <p-sortIcon field="time" />
+        </th>
+        <th pSortableColumn="size" style="width:10%">Size
+          <p-sortIcon field="size" />
+        </th>
+        <th pSortableColumn="seeders" style="width:5%">S.
+          <p-sortIcon field="seeders" />
+        </th>
+        <th pSortableColumn="leechers" style="width:5%">L.
+          <p-sortIcon field="leechers" />
+        </th>
+        <th style="width:10%">Source</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-element>
+      <tr>
+        <td>
+          <img class="img" [src]="element.img">
+        </td>
+        <td>
+          <a target="_blank" href={{element.link}}>{{element.name}}</a>
+        </td>
+        <td>{{ element.time }}</td>
+        <td>{{ element.size }}</td>
+        <td>{{ element.seeders }}</td>
+        <td>{{ element.leechers }}</td>
+        <td>{{ element.source }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>
+}

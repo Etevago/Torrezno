@@ -1,9 +1,7 @@
-import { SortDirection } from '@angular/material/sort';
-
 export interface Result {
   name: string;
   size?: string;
-  added?: string;
+  time?: string;
   convertedSize?: number;
   seeders?: number;
   leechers?: number;
@@ -14,10 +12,16 @@ export interface Result {
 }
 
 export interface SortEvent {
-  active?: string;
-  direction?: SortDirection;
+  field?: string;
+  order?: string;
 }
 
-export interface ApiRequest extends SortEvent {
-  search: string;
+export interface SearchRequest extends SortEvent {
+  search?: string;
+}
+
+export interface AppState {
+  results: Result[];
+  search: SearchRequest | null;
+  filters: Record<string, boolean>;
 }

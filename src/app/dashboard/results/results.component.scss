@@ -1,20 +1,17 @@
-  .filter-section {
-    margin: 30px 0 20px 0;
-    display: flex;
-    gap: 20px;
-  }
+ .results-container {
+   .filter-section {
+     margin: 30px 0 20px 0;
+     display: flex;
+     gap: 20px;
+   }
 
+   tr>td {
+     padding: 5px !important;
 
-  .img {
-    height: 50px;
-    width: 50px;
-    margin: 2px;
-  }
-
-  a {
-    margin-left: 10px;
-  }
-
-  .mat-column-img{
-    width: 50px;
-  }
+     .img {
+       height: 50px;
+       width: 50px;
+       margin: 2px;
+     }
+   }
+ }

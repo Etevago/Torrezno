@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TorrentService } from '../../shared/torrent.service';
 
@@ -8,15 +8,13 @@ import { TorrentService } from '../../shared/torrent.service';
   styleUrls: ['./search.component.scss'],
   imports: [FormsModule],
 })
-export class SearchComponent implements OnInit {
-  private torrentService = inject(TorrentService);
+export class SearchComponent {
+  service = inject(TorrentService);
 
-  searchInput!: string;
-  constructor() {}
-
-  ngOnInit() {}
-
-  onSearch() {
-    this.torrentService.search$.next({ search: this.searchInput });
+  updateSearch(search: string) {
+    this.service.search$.next({
+      ...this.service.search(),
+      search,
+    });
   }
 }

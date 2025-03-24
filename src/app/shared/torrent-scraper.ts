@@ -44,7 +44,7 @@ export const scrapeRARBG = (html: string | null): Result[] => {
         img:
           environment.rarbgApi +
           element.children[0].children[0].children[0].attributes[0].value,
-        added: new Date(element.children[3].textContent!).toLocaleDateString(
+        time: new Date(element.children[3].textContent!).toLocaleDateString(
           'es-ES'
         ),
         size: element.children[4].textContent!,
@@ -71,7 +71,7 @@ export const scrapeHacker = (html: string | null): Result[] => {
         leechers: +element.children[2].textContent!,
         source: '1337x',
         img: transformHackerImageToRARBGImage(element),
-        added: formatDate(element.children[3].textContent!),
+        time: formatDate(element.children[3].textContent!),
         size: element.children[4].textContent!,
       });
     });
