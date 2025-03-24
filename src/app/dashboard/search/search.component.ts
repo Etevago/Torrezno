@@ -10,4 +10,11 @@ import { TorrentService } from '../../shared/torrent.service';
 })
 export class SearchComponent {
   service = inject(TorrentService);
+
+  updateSearch(search: string) {
+    this.service.search$.next({
+      ...this.service.search(),
+      search,
+    });
+  }
 }

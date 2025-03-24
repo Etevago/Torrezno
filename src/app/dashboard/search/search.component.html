@@ -1,4 +1,4 @@
 <div class="search-container">
   <input #searchInput type="text" placeholder="Search..." class="search-input"
-    (keyup.enter)="service.search$.next({search:searchInput.value})" />
+    (keyup.enter)="updateSearch(searchInput.value)" />
 </div>

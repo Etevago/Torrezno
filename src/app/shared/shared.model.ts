@@ -1,7 +1,7 @@
 export interface Result {
   name: string;
   size?: string;
-  added?: string;
+  time?: string;
   convertedSize?: number;
   seeders?: number;
   leechers?: number;
@@ -12,8 +12,8 @@ export interface Result {
 }
 
 export interface SortEvent {
-  active?: string;
-  direction?: string;
+  field?: string;
+  order?: string;
 }
 
 export interface SearchRequest extends SortEvent {

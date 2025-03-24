@@ -1,31 +1,37 @@
 @if (service.results().length > 0){
 <div class="results-container">
   <form class="filter-section">
-    <input #rarbg [(ngModel)]="service.filters()['rarbg']"
-      (ngModelChange)="service.filterChanged($event, 'rarbg')" name="rarbg" type="checkbox" class="btn-check"
-      id="rarbg" autocomplete="off" [checked]="true">
+    <input #rarbg [ngModel]="filters" (ngModelChange)="service.filterChanged($event, 'rarbg')" name="rarbg"
+      type="checkbox" class="btn-check" id="rarbg" autocomplete="off">
     <label class="btn btn-outline-primary" for="rarbg">RARBG</label>
 
-    <input #elamigos [(ngModel)]="service.filters()['elamigos']"
-      (ngModelChange)="service.filterChanged($event, 'elamigos')" name="elamigos" type="checkbox" class="btn-check"
-      id="elamigos" autocomplete="off" [checked]="true">
+    <input #elamigos [ngModel]="filters" (ngModelChange)="service.filterChanged($event, 'elamigos')" name="elamigos"
+      type="checkbox" class="btn-check" id="elamigos" autocomplete="off">
     <label class="btn btn-outline-primary" for="elamigos">ElAmigos</label>
 
-    <input #hacker [(ngModel)]="service.filters()['1337x']"
-      (ngModelChange)="service.filterChanged($event, 'hacker')" name="1337x" type="checkbox" class="btn-check"
-      id="1337x" autocomplete="off" [checked]="true">
+    <input #hacker [ngModel]="filters" (ngModelChange)="service.filterChanged($event, '1337x')" name="1337x"
+      type="checkbox" class="btn-check" id="1337x" autocomplete="off">
     <label class="btn btn-outline-primary" for="1337x">1337x</label>
   </form>
 
-  <p-table [value]="service.filteredResults()" [paginator]="true" [rows]="25" [rowsPerPageOptions]="[25, 50, 100]">
+  <p-table [value]="service.filteredResults()" [defaultSortOrder]="-1" [customSort]="true" [lazy]="true"
+    (onSort)="sortChanged($event)" [paginator]="true" [rows]="25" [rowsPerPageOptions]="[25, 50, 100]">
     <ng-template #header>
       <tr>
-        <th style="width:5%"></th>
+        <th pSortableColumn style="width:5%"></th>
         <th style="width:55%">Name</th>
-        <th style="width:10%">Added</th>
-        <th style="width:10%">Size</th>
-        <th style="width:5%">S.</th>
-        <th style="width:5%">L.</th>
+        <th pSortableColumn="time" style="width:10%">Added
+          <p-sortIcon field="time" />
+        </th>
+        <th pSortableColumn="size" style="width:10%">Size
+          <p-sortIcon field="size" />
+        </th>
+        <th pSortableColumn="seeders" style="width:5%">S.
+          <p-sortIcon field="seeders" />
+        </th>
+        <th pSortableColumn="leechers" style="width:5%">L.
+          <p-sortIcon field="leechers" />
+        </th>
         <th style="width:10%">Source</th>
       </tr>
     </ng-template>
@@ -37,7 +43,7 @@
         <td>
           <a target="_blank" href={{element.link}}>{{element.name}}</a>
         </td>
-        <td>{{ element.added }}</td>
+        <td>{{ element.time }}</td>
         <td>{{ element.size }}</td>
         <td>{{ element.seeders }}</td>
         <td>{{ element.leechers }}</td>

@@ -14,10 +14,11 @@ export class RestApiService {
   constructor() {}
 
   getRARBGTorrents(request: SearchRequest): Observable<Result[]> {
-    const { search, active: order, direction: by } = request;
+    let { search, field, order: by } = request;
     let params: any = { search };
-    if (order && by) {
-      params.order = order;
+    if (field && by) {
+      if (field === 'time') field = 'data';
+      params.order = field;
       params.by = by;
     }
 
@@ -36,7 +37,7 @@ export class RestApiService {
   }
 
   getHackerTorrents(request: SearchRequest): Observable<Result[]> {
-    const { search, active, direction } = request;
+    const { search, field: active, order: direction } = request;
     let searchQuery = direction
       ? `sort-search/${search}/${active}/${direction}`
       : `search/${search}`;
