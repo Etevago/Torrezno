@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
-import { SortEvent } from '../../shared/shared.model';
 import { TorrentStore } from '../../shared/store/store';
 import { TorrentService } from '../../shared/torrent.service';
 @Component({
