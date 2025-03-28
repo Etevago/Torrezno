@@ -14,11 +14,13 @@
     <label class="btn btn-outline-primary" for="1337x">1337x</label>
   </form>
 
-  <p-table [value]="service.filteredResults()" [defaultSortOrder]="-1" [customSort]="true" [lazy]="true"
-    (onSort)="sortChanged($event)" [paginator]="true" [rows]="25" [rowsPerPageOptions]="[25, 50, 100]">
+  <p-table [value]="service.filteredResults()" sortField="time" [showCurrentPageReport]="true" [sortOrder]="-1"
+    [defaultSortOrder]="-1" [customSort]="true" [lazy]="false" (onSort)="sortChanged($event)" [paginator]="true"
+    [rows]="25" [rowsPerPageOptions]="[25, 50, 100]" stripedRows
+    currentPageReportTemplate="Showing {last} of {totalRecords} entries">
     <ng-template #header>
       <tr>
-        <th pSortableColumn style="width:5%"></th>
+        <th style="width:5%">Cat.</th>
         <th style="width:55%">Name</th>
         <th pSortableColumn="time" style="width:10%">Added
           <p-sortIcon field="time" />
