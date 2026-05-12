@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, map, Observable, of } from 'rxjs';
 import { environment } from '../environment.dev';
-import { scrapeElAmigos, scrapeHacker, scrapeRARBG } from './torrent-scraper';
+import { scrapeElAmigos, scrapeHacker, scrapeRARBG, scrapeRuTracker } from './torrent-scraper';
 import { SearchRequest, Result } from './shared.model';
 
 @Injectable({
@@ -64,6 +64,19 @@ export class RestApiService {
           return of(null);
         }),
         map(scrapeElAmigos)
+      );
+  }
+
+  getRuTrackerTorrents(search: string): Observable<Result[]> {
+    const params = { nm: search };
+    return this.httpClient
+      .get(`${environment.ruTrackerProxyApi}/search`, { params, responseType: 'text' })
+      .pipe(
+        catchError((error) => {
+          console.error('RuTracker Proxy API Error:', error);
+          return of(null);
+        }),
+        map(scrapeRuTracker)
       );
   }
 }

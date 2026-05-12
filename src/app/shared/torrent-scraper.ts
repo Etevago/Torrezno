@@ -1,3 +1,4 @@
+import { log } from 'console';
 import { environment } from '../environment.dev';
 import { Result } from './shared.model';
 import { formatDate, transformHackerImageToRARBGImage } from './utils/utils';
@@ -70,6 +71,30 @@ export const scrapeHacker = (html: string | null): Result[] => {
         seeders: +element.children[1].textContent!,
         leechers: +element.children[2].textContent!,
         source: '1337x',
+        img: transformHackerImageToRARBGImage(element),
+        time: formatDate(element.children[3].textContent!),
+        size: element.children[4].textContent!,
+      });
+    });
+  }
+  return results;
+};
+
+export const scrapeRuTracker = (html: string | null): Result[] => {
+  const results: Result[] = [];
+  if (html) {
+    const doc = parser.parseFromString(html, 'text/html');
+    const elements = doc.querySelectorAll('#search-results table tbody tr');
+    console.log(elements);
+    elements.forEach((element) => {
+      results.push({
+        name: element.children[0].children[1].innerHTML,
+        link:
+          environment.ruTrackerUrl +
+          element.children[0].children[1].attributes[0].value,
+        seeders: +element.children[1].textContent!,
+        leechers: +element.children[2].textContent!,
+        source: 'ruTracker',
         img: transformHackerImageToRARBGImage(element),
         time: formatDate(element.children[3].textContent!),
         size: element.children[4].textContent!,

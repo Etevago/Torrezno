@@ -9,29 +9,34 @@ export class TorrentStore extends ComponentStore<AppState> {
   readonly results = this.selectSignal((state: AppState) => state?.results);
 
   readonly setResults = this.updater<AppState['results']>(
-    (state, results): AppState => ({ ...state, results })
+    (state, results): AppState => ({ ...state, results }),
   );
 
   readonly search = this.selectSignal((state: AppState) => state?.search);
 
   readonly setSearch = this.updater<AppState['search']>(
-    (state, search): AppState => ({ ...state, search })
+    (state, search): AppState => ({ ...state, search }),
   );
 
   readonly filters = this.selectSignal((state: AppState) => state?.filters);
 
   readonly setFilters = this.updater<AppState['filters']>(
-    (state, filters): AppState => ({ ...state, filters })
+    (state, filters): AppState => ({ ...state, filters }),
   );
 
   readonly getFilter = (id: string) =>
     this.selectSignal((state: AppState) => this._findFilter(id, state.filters));
 
   constructor() {
+    const websiteSources = ['rarbg', 'elamigos', '1337x', 'ruTracker'];
+
     super({
       results: [],
       search: null,
-      filters: { rarbg: true, elamigos: true, '1337x': true },
+      filters: websiteSources.reduce(
+        (acc, key) => ({ ...acc, [key]: true }),
+        {},
+      ),
     });
   }
 

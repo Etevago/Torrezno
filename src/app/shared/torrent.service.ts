@@ -47,6 +47,7 @@ export class TorrentService {
           this.apiService.getRARBGTorrents(search),
           this.apiService.getHackerTorrents(search),
           this.apiService.getElAmigosTorrents(search.search!),
+          this.apiService.getRuTrackerTorrents(search.search!),
         ];
 
         forkJoin(requests)

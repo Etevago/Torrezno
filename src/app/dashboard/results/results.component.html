@@ -12,9 +12,13 @@
     <input #hacker [ngModel]="filters" (ngModelChange)="service.filterChanged($event, '1337x')" name="1337x"
       type="checkbox" class="btn-check" id="1337x" autocomplete="off">
     <label class="btn btn-outline-primary" for="1337x">1337x</label>
+
+    <input #ruTracker [ngModel]="filters" (ngModelChange)="service.filterChanged($event, 'ruTracker')" name="ruTracker"
+      type="checkbox" class="btn-check" id="ruTracker" autocomplete="off">
+    <label class="btn btn-outline-primary" for="ruTracker">rutracker</label>
   </form>
 
-  <p-table [value]="service.filteredResults()" sortField="time" [showCurrentPageReport]="true" [sortOrder]="-1"
+  <p-table [value]="service.filteredResults()" sortField="seeders" [showCurrentPageReport]="true" [sortOrder]="-1"
     [defaultSortOrder]="-1" [customSort]="true" [lazy]="false" (onSort)="sortChanged($event)" [paginator]="true"
     [rows]="25" [rowsPerPageOptions]="[25, 50, 100]" stripedRows
     currentPageReportTemplate="Showing {last} of {totalRecords} entries">
